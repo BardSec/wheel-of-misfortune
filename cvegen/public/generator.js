@@ -26,7 +26,7 @@
   const TARGETS = [
     "Log", "PHP", "nginx", "YAML", "JSON", "CSV", "SVG", "GIF", "PDF", "Excel", "Regex",
     "Emoji", "Unicode", "Markdown", "Cron", "DNS", "LDAP", "SMB", "NTP", "Kerberos",
-    "Printer", "Copier", "Projector", "Smartboard", "Chromebook", "Bluetooth", "WiFi", "USB",
+    "Printer", "Copier", "Projector", "Kiosk", "Laptop", "Bluetooth", "WiFi", "USB",
     "HDMI", "Fridge", "Toaster", "Thermostat", "Doorbell", "Elevator", "Vending", "Badge",
     "Lanyard", "Vacuum", "Chatbot", "Agent", "Prompt", "Cookie", "Calendar", "Spreadsheet",
     "Webhook", "Docker", "Kube", "Helm", "npm", "pip", "curl", "grep", "tar", "sudo",
@@ -41,7 +41,7 @@
 
   const BLEED_WORDS = [
     "Toaster", "Lanyard", "Spreadsheet", "Calendar", "Fridge", "Badge", "Emoji", "Cookie",
-    "Printer", "Thermostat", "Smartboard", "Payroll", "Stapler", "Cafeteria", "Parking",
+    "Printer", "Thermostat", "Kiosk", "Payroll", "Stapler", "Breakroom", "Parking",
   ];
 
   // Hand-made acronym puns, regreSSHion-style.
@@ -57,8 +57,8 @@
     "Capybara", "Moose", "Gecko", "Platypus",
   ];
   const NIGHTMARE_THINGS = [
-    "Lanyard", "Spreadsheet", "Calendar", "Badge", "Cafeteria", "Projector", "Parking",
-    "Webcam", "Gradebook", "Hallpass", "Stapler",
+    "Lanyard", "Spreadsheet", "Calendar", "Badge", "Breakroom", "Projector", "Parking",
+    "Webcam", "Expense", "Timesheet", "Stapler",
   ];
   const PROXY_THINGS = ["Panic", "Shame", "Llama", "Regret", "Gremlin", "Mayhem", "Lunch"];
   const ZERO_THINGS = ["Lunch", "Chill", "Budget", "Sleep", "Patience", "Coffee", "Context"];
@@ -74,15 +74,15 @@
   // ---------- Flavor text ----------
 
   const ACTORS = [
-    "intern", "smart fridge", "substitute teacher", "disgruntled robot vacuum", "AI agent",
-    "LinkedIn recruiter", "former employee", "squirrel", "middle schooler", "vendor sales rep",
-    "pigeon carrying a thumb drive", "board member's nephew", "printer", "browser extension",
+    "intern", "smart fridge", "contractor on their last day", "disgruntled robot vacuum", "AI agent",
+    "LinkedIn recruiter", "former employee", "squirrel", "bored teenager", "vendor sales rep",
+    "pigeon carrying a thumb drive", "CEO's nephew", "printer", "browser extension",
   ];
   const IMPACTS = [
     "gain root", "read every email", "order 400 pizzas to the server room",
-    "become domain admin", "rename every printer to \"HELP\"", "mine crypto on the smartboards",
-    "rewrite the lunch menu", "disable MFA for everyone", "reply-all to the entire organization",
-    "change everyone's wallpaper to a goose", "exfiltrate the gradebook", "set the thermostat to 85",
+    "become domain admin", "rename every printer to \"HELP\"", "mine crypto on the conference room TVs",
+    "cancel the holiday party", "disable MFA for everyone", "reply-all to the entire organization",
+    "change everyone's wallpaper to a goose", "exfiltrate the payroll spreadsheet", "set the thermostat to 85",
     "approve their own access request", "delete the backups (and the backups of the backups)",
   ];
   const VECTORS = [
@@ -105,10 +105,10 @@
     "Have you tried turning it off and on again?",
   ];
   const RESEARCHERS = [
-    "an intern", "a bored teenager", "someone's AI agent", "a guy on Mastodon",
+    "an intern", "a teenager on summer break", "someone's AI agent", "a guy on Mastodon",
     "the vendor's own QA team (by accident)", "a pentester who forgot the scope",
-    "a substitute teacher", "Anonymous Researcher", "a very persistent bug bounty hunter",
-    "the sysadmin, at 3 AM", "a Reddit thread", "the night custodian", "a group chat",
+    "a contractor on their last day", "Anonymous Researcher", "a very persistent bug bounty hunter",
+    "the sysadmin, at 3 AM", "a Reddit thread", "the overnight security guard", "a group chat",
   ];
   const CVSS = ["10.0", "10.0", "10.0", "9.8", "9.9", "9.8", "11.0 (vendor disputes)", "3.1 (according to the vendor)"];
   const LOGOS = ["🔥", "💀", "🐛", "🦠", "🧨", "💣", "🐍", "🦀", "🐙", "🕷️", "🦂", "🧟", "👻", "🌋", "☢️", "⚡", "🧀", "🦆", "🪳", "🐐", "🦝", "🪿"];
