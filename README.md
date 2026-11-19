@@ -62,6 +62,11 @@ with proxied CNAMEs in the bardsec.com zone.
 
 - Repo secrets: `CLOUDFLARE_API_TOKEN` (Pages: Edit), `CLOUDFLARE_ACCOUNT_ID`
 
+**Caching:** the bardsec.com zone tells browsers to cache JS/CSS for 4 hours. Script and
+stylesheet URLs in both `index.html` files carry a `?v=__BUILD__` placeholder that the workflow
+replaces with the commit SHA, so each deploy is fetched fresh. Keep the placeholder on any new
+JS/CSS links you add.
+
 ## Environment variables
 
 None — fully static.
