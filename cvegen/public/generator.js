@@ -22,21 +22,30 @@
 
   // ---------- Word lists ----------
 
-  // Things that get pwned. Lowercase entries keep the whole name lowercase (like nginx2root).
-  const TARGETS = [
+  // Everyday objects: the star of the show (Fridge4Ransom, Toaster2Root).
+  const OBJECTS = [
+    "Fridge", "Toaster", "Microwave", "Kettle", "Blender", "Dishwasher", "Airfryer", "Juicer",
+    "Thermostat", "Doorbell", "Lightbulb", "Ceilingfan", "Sprinkler", "Lawnmower", "Treadmill",
+    "Fishtank", "Toothbrush", "Hairdryer", "Mattress", "Smartwatch", "Garagedoor",
+    "Printer", "Copier", "Projector", "Stapler", "Shredder", "Elevator", "Vending", "Badge",
+    "Lanyard", "Vacuum", "Kiosk", "Webcam", "Headset", "Keyboard", "Mousepad", "Deskfan",
+    "Coffeepot", "Scooter", "Doorknob", "Calculator",
+  ];
+
+  // Tech targets. Lowercase entries keep the whole name lowercase (like nginx2root).
+  const TECH = [
     "Log", "PHP", "nginx", "YAML", "JSON", "CSV", "SVG", "GIF", "PDF", "Excel", "Regex",
     "Emoji", "Unicode", "Markdown", "Cron", "DNS", "LDAP", "SMB", "NTP", "Kerberos",
-    "Printer", "Copier", "Projector", "Kiosk", "Laptop", "Bluetooth", "WiFi", "USB",
-    "HDMI", "Fridge", "Toaster", "Thermostat", "Doorbell", "Elevator", "Vending", "Badge",
-    "Lanyard", "Vacuum", "Chatbot", "Agent", "Prompt", "Cookie", "Calendar", "Spreadsheet",
-    "Webhook", "Docker", "Kube", "Helm", "npm", "pip", "curl", "grep", "tar", "sudo",
+    "Bluetooth", "WiFi", "USB", "HDMI", "Chatbot", "Agent", "Prompt", "Cookie", "Calendar",
+    "Spreadsheet", "Webhook", "Docker", "Kube", "Helm", "npm", "pip", "curl", "grep", "tar", "sudo",
   ];
 
   const CONNECTORS = ["2", "4", "2", "4", "2", "To"];
 
   const PAYLOADS = [
     "Shell", "Root", "Pwn", "RCE", "Admin", "Owned", "Sudo", "Kernel", "Ransom", "Chaos",
-    "Doom", "SYSTEM", "Takeover", "Escape", "Leak", "Bleed", "Panic",
+    "Doom", "SYSTEM", "Takeover", "Escape", "Leak", "Bleed", "Panic", "Botnet", "Rootkit",
+    "Wiper", "Exfil", "Backdoor",
   ];
 
   const BLEED_WORDS = [
@@ -116,24 +125,26 @@
 
   // ---------- Name patterns ----------
 
-  function connectorName(rng) {
-    const target = pick(rng, TARGETS);
+  function connectorName(rng, targets, connectors = CONNECTORS) {
+    const target = pick(rng, targets);
     let payload = pick(rng, PAYLOADS);
     if (target === target.toLowerCase()) payload = payload.toLowerCase();
-    return target + pick(rng, CONNECTORS) + payload;
+    return target + pick(rng, connectors) + payload;
   }
 
   const PATTERNS = [
     // weight, generator
-    [40, connectorName],
-    [12, (rng) => pick(rng, BLEED_WORDS) + "bleed"],
-    [18, (rng) => pick(rng, PUNS)],
-    [6, (rng) => "Dirty " + pick(rng, ANIMALS)],
-    [6, (rng) => pick(rng, NIGHTMARE_THINGS) + "Nightmare"],
-    [6, (rng) => "Proxy" + pick(rng, PROXY_THINGS)],
-    [6, (rng) => "Zero" + pick(rng, ZERO_THINGS)],
-    [3, (rng) => "Eternal" + pick(rng, COLORS)],
-    [3, (rng) => pick(rng, COLORS) + "Keep"],
+    // Roughly: half everyday-object names, the rest spread across the other styles.
+    [50, (rng) => connectorName(rng, OBJECTS, ["2", "4"])], // "To" reads clunky here
+    [14, (rng) => connectorName(rng, TECH)],
+    [8, (rng) => pick(rng, BLEED_WORDS) + "bleed"],
+    [12, (rng) => pick(rng, PUNS)],
+    [4, (rng) => "Dirty " + pick(rng, ANIMALS)],
+    [4, (rng) => pick(rng, NIGHTMARE_THINGS) + "Nightmare"],
+    [3, (rng) => "Proxy" + pick(rng, PROXY_THINGS)],
+    [3, (rng) => "Zero" + pick(rng, ZERO_THINGS)],
+    [1, (rng) => "Eternal" + pick(rng, COLORS)],
+    [1, (rng) => pick(rng, COLORS) + "Keep"],
   ];
   const TOTAL_WEIGHT = PATTERNS.reduce((sum, [w]) => sum + w, 0);
 
