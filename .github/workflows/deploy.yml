@@ -19,6 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The bardsec.com zone tells browsers to cache JS/CSS for 4h, but HTML is always revalidated.
+      # Stamping asset URLs with the commit SHA makes every deploy fetch fresh JS/CSS
+      # (otherwise new HTML + stale JS breaks the page until a hard refresh).
+      - name: Cache-bust asset URLs
+        run: sed -i "s/__BUILD__/${GITHUB_SHA::8}/g" public/index.html cvegen/public/index.html
+
       - name: Deploy wheel.bardsec.com
         uses: cloudflare/wrangler-action@v3
         with:
