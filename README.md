@@ -26,13 +26,13 @@ cd public && python3 -m http.server 8765
 
 ## Deploy
 
-Cloudflare Pages, direct upload of `public/`:
+Every push to `main` deploys automatically: `.github/workflows/deploy.yml` uploads `public/`
+to the Cloudflare Pages project `wheel-of-misfortune` with Wrangler. It can also be run by hand
+from the Actions tab.
 
-```bash
-npx wrangler pages deploy public --project-name wheel-of-misfortune
-```
-
-Custom domain `wheel.bardsec.com` is attached in the Pages project settings.
+- Pages project: `wheel-of-misfortune` (edtechirl Cloudflare account) → `wheel-of-misfortune-c42.pages.dev`
+- Custom domain: `wheel.bardsec.com` (proxied CNAME in the bardsec.com zone)
+- Repo secrets: `CLOUDFLARE_API_TOKEN` (Pages: Edit), `CLOUDFLARE_ACCOUNT_ID`
 
 ## Environment variables
 
