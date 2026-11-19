@@ -3,7 +3,7 @@
 Two tongue-in-cheek static sites on Cloudflare Pages:
 
 - **wheel.bardsec.com**: a tap-to-spin wheel of real and "forecast" software vulnerabilities
-- **cvegenerator.bardsec.com**: enter your name, get a branded made-up vulnerability (name, logo, CVE ID, website, no patch). Same name, same result, like the old Wu-Tang name generator.
+- **cvegenerator.bardsec.com**: one click generates a branded made-up vulnerability (name, logo, CVE ID, CVSS, website, vendor response, no patch)
 
 ## Structure
 
@@ -27,12 +27,12 @@ Each entry in `vulns.js` has a `kind`: `real` (actual CVE), `scheduled` (e.g. Y2
 
 | File | Purpose |
 |------|---------|
-| `cvegen/public/generator.js` | **Word lists and naming patterns.** Seeded RNG, so a name always maps to the same vuln. Shared by the browser and the Function. |
+| `cvegen/public/generator.js` | **Word lists and naming patterns.** Each vuln comes from a random 32-bit seed, so a share code always reproduces the same vuln. Shared by the browser and the Function. |
 | `cvegen/public/app.js` | Form, result card, copy / copy-link |
 | `cvegen/public/index.html`, `styles.css`, `_headers`, `favicon.svg`, `og.png` | Page, styles, security headers, icon, preview image |
-| `cvegen/functions/index.js` | Pages Function: for `/?n=Name` links, rewrites the Open Graph / Twitter tags so Teams/Slack previews show that person's vulnerability |
+| `cvegen/functions/index.js` | Pages Function: for `/?v=<code>` links, rewrites the Open Graph / Twitter tags so Teams/Slack previews show that specific vulnerability |
 
-Shared links use `?n=Name` (not `#Name`) because link-preview bots never see the URL fragment.
+Shared links use `?v=<code>` (the seed in base36) rather than a `#` fragment, because link-preview bots never see the fragment.
 The generator never outputs a real vuln name (see `REAL_NAMES` in `generator.js`).
 
 ### Link-preview images (`og/`)

@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>CVE Name Generator</title>
-  <meta name="description" content="Enter your name. Get a branded vulnerability, complete with logo, website, and no patch.">
+  <meta name="description" content="One click, one brand-new vulnerability: name, logo, website, and no patch.">
   <meta name="theme-color" content="#0b0c10">
-  <!-- Link-preview tags. functions/index.js rewrites title/description/url for ?n= links. -->
+  <!-- Link-preview tags. functions/index.js rewrites title/description/url for ?v= links. -->
   <meta property="og:site_name" content="BardSec">
   <meta property="og:title" content="CVE Name Generator">
-  <meta property="og:description" content="Enter your name. Get a branded vulnerability, complete with logo, website, and no patch.">
+  <meta property="og:description" content="One click, one brand-new vulnerability: name, logo, website, and no patch.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://cvegenerator.bardsec.com/">
   <meta property="og:image" content="https://cvegenerator.bardsec.com/og.png">
@@ -18,7 +18,7 @@
   <meta property="og:image:alt" content="CVE Name Generator: a branded vulnerability card with a logo, CVE number and CVSS 10.0">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CVE Name Generator">
-  <meta name="twitter:description" content="Enter your name. Get a branded vulnerability, complete with logo, website, and no patch.">
+  <meta name="twitter:description" content="One click, one brand-new vulnerability: name, logo, website, and no patch.">
   <meta name="twitter:image" content="https://cvegenerator.bardsec.com/og.png">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
@@ -35,14 +35,9 @@
     <h1>CVE Name <span class="accent">Generator</span></h1>
     <p class="tagline">Every great vulnerability needs a name, a logo, and a website before it needs a patch.</p>
 
-    <form id="form" class="form" autocomplete="off">
-      <label for="name" class="label">Enter your name to discover your vulnerability</label>
-      <div class="row">
-        <input id="name" name="name" type="text" maxlength="60" placeholder="Your name" spellcheck="false">
-        <button type="submit" class="btn">Disclose</button>
-      </div>
-      <button type="button" id="random" class="link-btn">or generate a random one</button>
-    </form>
+    <div class="form">
+      <button type="button" id="generate" class="btn big">Generate a vulnerability</button>
+    </div>
 
     <section id="result" class="result" hidden aria-live="polite">
       <article class="card">
@@ -71,7 +66,7 @@
   </main>
 
   <footer>
-    <p>Generated in your browser. Your name only leaves this page if you share the link.</p>
+    <p>Generated in your browser. Nothing is collected.</p>
     <p>Any resemblance to real CVEs is entirely too likely.</p>
   </footer>
 </body>

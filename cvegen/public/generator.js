@@ -1,20 +1,11 @@
 // Word lists and naming patterns for the CVE name generator.
-// Same input name always produces the same vulnerability (seeded RNG), Wu-Tang-generator style.
+// Each vuln comes from a random 32-bit seed. The seed goes in shared links (?v=<base36>),
+// so the same link always shows the same vuln, in the browser and in the preview Function.
 // Edit the lists freely — keep entries short, they get glued together.
 (() => {
   "use strict";
 
   // ---------- Seeded randomness ----------
-
-  // FNV-1a string hash → 32-bit seed
-  function hashString(s) {
-    let h = 2166136261 >>> 0;
-    for (const ch of s) {
-      h ^= ch.codePointAt(0);
-      h = Math.imul(h, 16777619);
-    }
-    return h >>> 0;
-  }
 
   // mulberry32: tiny deterministic PRNG returning floats in [0, 1)
   function mulberry32(seed) {
@@ -113,6 +104,12 @@
     "Patch available for customers on the Platinum Plus plan.",
     "Have you tried turning it off and on again?",
   ];
+  const RESEARCHERS = [
+    "an intern", "a bored teenager", "someone's AI agent", "a guy on Mastodon",
+    "the vendor's own QA team (by accident)", "a pentester who forgot the scope",
+    "a substitute teacher", "Anonymous Researcher", "a very persistent bug bounty hunter",
+    "the sysadmin, at 3 AM", "a Reddit thread", "the night custodian", "a group chat",
+  ];
   const CVSS = ["10.0", "10.0", "10.0", "9.8", "9.9", "9.8", "11.0 (vendor disputes)", "3.1 (according to the vendor)"];
   const LOGOS = ["🔥", "💀", "🐛", "🦠", "🧨", "💣", "🐍", "🦀", "🐙", "🕷️", "🦂", "🧟", "👻", "🌋", "☢️", "⚡", "🧀", "🦆", "🪳", "🐐", "🦝", "🪿"];
   const TLDS = [".lol", ".wtf", ".fail", ".sh", ".io", ".exposed"];
@@ -157,12 +154,19 @@
 
   // ---------- Public API ----------
 
-  // name: the person's name (string) or null for a random vuln.
-  function generate(name) {
-    const clean = (name || "").trim().replace(/\s+/g, " ");
-    const seed = clean
-      ? hashString(clean.toLowerCase())
-      : crypto.getRandomValues(new Uint32Array(1))[0];
+  const randomSeed = () => crypto.getRandomValues(new Uint32Array(1))[0];
+
+  // Shared-link code <-> seed. Returns null for anything that isn't a valid code.
+  const encodeSeed = (seed) => (seed >>> 0).toString(36);
+  function decodeSeed(code) {
+    if (typeof code !== "string" || !/^[0-9a-z]{1,7}$/.test(code)) return null;
+    const n = parseInt(code, 36);
+    return n <= 0xffffffff ? n : null;
+  }
+
+  // seed: a 32-bit integer (from decodeSeed), or omitted for a fresh random vuln.
+  function generate(seed) {
+    if (seed == null) seed = randomSeed();
     const rng = mulberry32(seed);
 
     const vulnName = makeName(rng);
@@ -171,6 +175,7 @@
     const slug = vulnName.toLowerCase().replace(/[^a-z0-9]/g, "");
 
     return {
+      code: encodeSeed(seed),
       name: vulnName,
       cve: `CVE-${year}-${number}`,
       cvss: pick(rng, CVSS),
@@ -178,9 +183,9 @@
       description: `Allows an unauthenticated ${pick(rng, ACTORS)} to ${pick(rng, IMPACTS)} via ${pick(rng, VECTORS)}.`,
       vendor: pick(rng, VENDOR_RESPONSES),
       website: slug + pick(rng, TLDS),
-      credit: clean || "Anonymous Researcher",
+      credit: pick(rng, RESEARCHERS),
     };
   }
 
-  globalThis.CVEGen = { generate };
+  globalThis.CVEGen = { generate, decodeSeed };
 })();

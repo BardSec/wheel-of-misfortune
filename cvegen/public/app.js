@@ -1,16 +1,13 @@
 (() => {
   "use strict";
 
-  const form = document.getElementById("form");
-  const input = document.getElementById("name");
-  const randomBtn = document.getElementById("random");
+  const generateBtn = document.getElementById("generate");
   const result = document.getElementById("result");
   const card = result.querySelector(".card");
   const copyBtn = document.getElementById("copy");
   const linkBtn = document.getElementById("link");
 
   let current = null;
-  let currentInput = "";
 
   const $ = (id) => document.getElementById(id);
 
@@ -24,22 +21,21 @@
     $("r-site").textContent = v.website;
     $("r-vendor").textContent = v.vendor;
     $("r-credit").textContent = v.credit;
-    linkBtn.hidden = !currentInput; // random results have no stable link
 
     result.hidden = false;
+    generateBtn.textContent = "Generate another";
     // Restart the reveal animation on every generation.
     card.classList.remove("reveal");
     void card.offsetWidth;
     card.classList.add("reveal");
   }
 
-  function generateFor(name) {
-    currentInput = name;
-    render(window.CVEGen.generate(name || null));
-    // Keep the name in ?n= so a shared link reproduces the same vuln, and so the
-    // Pages Function can put it in the link-preview card (Teams, Slack, etc.).
-    const query = name ? "?n=" + encodeURIComponent(name) : "";
-    history.replaceState(null, "", location.pathname + query);
+  function show(seed) {
+    const v = window.CVEGen.generate(seed);
+    render(v);
+    // Put the seed in ?v= so the link reproduces this vuln, and so the Pages
+    // Function can put it in the link-preview card (Teams, Slack, etc.).
+    history.replaceState(null, "", location.pathname + "?v=" + v.code);
   }
 
   async function copyText(text, btn) {
@@ -53,17 +49,7 @@
     setTimeout(() => { btn.textContent = original; }, 1500);
   }
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = input.value.trim();
-    if (!name) { input.focus(); return; }
-    generateFor(name);
-  });
-
-  randomBtn.addEventListener("click", () => {
-    input.value = "";
-    generateFor("");
-  });
+  generateBtn.addEventListener("click", () => show());
 
   copyBtn.addEventListener("click", () => {
     if (!current) return;
@@ -72,17 +58,14 @@
       `${v.logo} ${v.name} (${v.cve}, CVSS ${v.cvss})\n` +
       `${v.description}\n` +
       `Vendor response: ${v.vendor}\n` +
-      `Disclosed by ${v.credit} · ${location.origin}`,
+      `Disclosed by ${v.credit} · ${location.href}`,
       copyBtn
     );
   });
 
   linkBtn.addEventListener("click", () => copyText(location.href, linkBtn));
 
-  // Shared link: ?n=Name → generate on load.
-  const shared = (new URLSearchParams(location.search).get("n") || "").slice(0, 60).trim();
-  if (shared) {
-    input.value = shared;
-    generateFor(shared);
-  }
+  // Shared link: ?v=<code> → show that vuln on load.
+  const shared = window.CVEGen.decodeSeed(new URLSearchParams(location.search).get("v"));
+  if (shared != null) show(shared);
 })();

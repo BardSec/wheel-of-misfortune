@@ -96,6 +96,7 @@ input:focus { outline: 2px solid var(--amber); outline-offset: 1px; border-color
   cursor: pointer;
   white-space: nowrap;
 }
+.btn.big { font-size: 18px; padding: 16px 32px; border-radius: 999px; box-shadow: 0 6px 20px rgba(229, 56, 59, 0.35); }
 .btn.ghost {
   background: transparent;
   color: var(--text);
