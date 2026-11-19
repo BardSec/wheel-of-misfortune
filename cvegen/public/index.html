@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>CVE Name Generator</title>
+  <meta name="description" content="Enter your name. Get a branded vulnerability, complete with logo, website, and no patch.">
+  <meta name="theme-color" content="#0b0c10">
+  <!-- Link-preview tags. functions/index.js rewrites title/description/url for ?n= links. -->
+  <meta property="og:site_name" content="BardSec">
+  <meta property="og:title" content="CVE Name Generator">
+  <meta property="og:description" content="Enter your name. Get a branded vulnerability, complete with logo, website, and no patch.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cvegenerator.bardsec.com/">
+  <meta property="og:image" content="https://cvegenerator.bardsec.com/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="CVE Name Generator: a branded vulnerability card with a logo, CVE number and CVSS 10.0">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CVE Name Generator">
+  <meta name="twitter:description" content="Enter your name. Get a branded vulnerability, complete with logo, website, and no patch.">
+  <meta name="twitter:image" content="https://cvegenerator.bardsec.com/og.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="generator.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">BARDSEC</span>
+    <a class="toplink" href="https://wheel.bardsec.com">Wheel of Misfortune →</a>
+  </header>
+
+  <main>
+    <h1>CVE Name <span class="accent">Generator</span></h1>
+    <p class="tagline">Every great vulnerability needs a name, a logo, and a website before it needs a patch.</p>
+
+    <form id="form" class="form" autocomplete="off">
+      <label for="name" class="label">Enter your name to discover your vulnerability</label>
+      <div class="row">
+        <input id="name" name="name" type="text" maxlength="60" placeholder="Your name" spellcheck="false">
+        <button type="submit" class="btn">Disclose</button>
+      </div>
+      <button type="button" id="random" class="link-btn">or generate a random one</button>
+    </form>
+
+    <section id="result" class="result" hidden aria-live="polite">
+      <article class="card">
+        <div id="r-logo" class="logo" aria-hidden="true"></div>
+        <p class="kicker">Introducing</p>
+        <h2 id="r-name"></h2>
+        <div class="chips">
+          <span id="r-cve" class="chip"></span>
+          <span id="r-cvss" class="chip sev"></span>
+        </div>
+        <p id="r-desc" class="desc"></p>
+        <ul class="checklist">
+          <li><span class="ok" aria-hidden="true">✔</span> Website registered: <span id="r-site" class="mono"></span></li>
+          <li><span class="ok" aria-hidden="true">✔</span> Logo commissioned</li>
+          <li><span class="ok" aria-hidden="true">✔</span> Conference talk accepted</li>
+          <li><span class="no" aria-hidden="true">✘</span> Patch available</li>
+        </ul>
+        <p class="vendor"><span class="label-sm">Vendor response:</span> <span id="r-vendor"></span></p>
+        <p class="credit">Disclosed by <strong id="r-credit"></strong></p>
+        <div class="actions">
+          <button id="copy" class="btn ghost" type="button">Copy</button>
+          <button id="link" class="btn ghost" type="button">Copy link</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>Generated in your browser. Your name only leaves this page if you share the link.</p>
+    <p>Any resemblance to real CVEs is entirely too likely.</p>
+  </footer>
+</body>
+</html>

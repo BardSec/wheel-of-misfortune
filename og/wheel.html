@@ -1,0 +1,27 @@
+<!doctype html>
+<!-- Link-preview image for wheel.bardsec.com. Render with og/render.sh.
+     Reuses the real wheel: loads public/vulns.js + public/app.js (which needs the hidden elements below). -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../public/styles.css">
+<style>
+  html, body { width: 1200px; height: 630px; overflow: hidden; cursor: default; }
+  body { display: grid; grid-template-columns: 1fr 560px; align-items: center; padding: 0 40px 0 72px; min-height: 0; }
+  .hide { display: none !important; }
+  .brand-sm { font: 700 20px var(--mono); letter-spacing: .14em; color: var(--muted); margin: 0 0 18px; }
+  h1 { font-size: 92px; line-height: .95; text-align: left; margin: 0 0 26px; }
+  .tag { font: 26px var(--mono); color: var(--muted); margin: 0 0 30px; line-height: 1.4; }
+  .pill { display: inline-block; background: var(--red); color: #fff; font: 700 26px var(--sans); padding: 14px 30px; border-radius: 999px; }
+  .wheel-wrap { width: 520px; }
+</style></head>
+<body>
+  <div>
+    <p class="brand-sm">BARDSEC</p>
+    <h1>Wheel of<br><span class="accent">Misfortune</span></h1>
+    <p class="tag">Spin to find out which<br>vulnerability ruins your week.</p>
+    <span class="pill">Tap to spin</span>
+  </div>
+  <div class="wheel-wrap"><div class="pointer"></div><canvas id="wheel"></canvas></div>
+  <div class="hide"><button id="spin"></button><button id="mute"></button><section id="result" hidden><div class="card"></div></section><p id="live"></p></div>
+  <script src="../public/vulns.js"></script>
+  <script src="../public/app.js"></script>
+</body></html>

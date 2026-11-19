@@ -19,9 +19,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy wheel.bardsec.com
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy public --project-name=wheel-of-misfortune --branch=main
+
+      # Runs from cvegen/ so Wrangler picks up cvegen/functions (the link-preview rewriter).
+      - name: Deploy cvegenerator.bardsec.com
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: cvegen
+          command: pages deploy public --project-name=cve-name-generator --branch=main
