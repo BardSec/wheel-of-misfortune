@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Wheel of Misfortune</title>
+  <meta name="description" content="Tap to spin. Find out which vulnerability ruins your week.">
+  <meta name="theme-color" content="#0b0c10">
+  <meta property="og:title" content="Wheel of Misfortune">
+  <meta property="og:description" content="Tap to spin. Find out which vulnerability ruins your week.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="vulns.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">BARDSEC</span>
+    <span class="counter">Days since last critical CVE: <strong>0</strong></span>
+  </header>
+
+  <main>
+    <h1>Wheel of <span class="accent">Misfortune</span></h1>
+    <p class="tagline">Tap anywhere to spin. Patch accordingly.</p>
+
+    <div class="wheel-wrap">
+      <div class="pointer" aria-hidden="true"></div>
+      <canvas id="wheel" role="img" aria-label="A prize wheel of software vulnerabilities"></canvas>
+    </div>
+
+    <button id="spin" class="spin-btn" type="button">Spin the wheel</button>
+  </main>
+
+  <section id="result" class="result" hidden>
+    <div class="card">
+      <div class="chips">
+        <span id="r-kind" class="chip"></span>
+        <span id="r-sev" class="chip"></span>
+      </div>
+      <h2 id="r-title"></h2>
+      <p id="r-id" class="vuln-id"></p>
+      <p id="r-blurb"></p>
+      <p class="status"><span class="status-label">Patch status:</span> <span id="r-status"></span></p>
+      <p class="again">Tap anywhere to spin again</p>
+    </div>
+  </section>
+
+  <p id="live" class="sr-only" aria-live="polite"></p>
+
+  <footer>
+    <button id="mute" class="mute" type="button" aria-pressed="false">🔊 Sound on</button>
+    <p>Real entries are real CVEs. Forecasts are jokes&hellip; for now.</p>
+  </footer>
+</body>
+</html>
